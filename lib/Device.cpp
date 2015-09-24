@@ -15,6 +15,6 @@
 Device::Device() {
     char s[32];
     FDwfGetVersion(s);
-    LOG(INFO) << s << '\n';
+    CLOG(INFO, "system") << s;
     //Discover devices
 }

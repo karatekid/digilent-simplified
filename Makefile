@@ -11,11 +11,13 @@ ODIR=obj
 BINFILE= run
 SRC= Device.cpp \
 	 Configuration.cpp \
+	 helper.cpp \
 	 main.cpp
 _OBJ=$(SRC:.cpp=.o)
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
 _DEPS= Device.h \
 	   Configuration.h \
+	   helper.h \
 	   easylogging++.h
 DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
 

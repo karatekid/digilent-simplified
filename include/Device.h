@@ -3,7 +3,7 @@
 
 #include<digilent/waveforms/dwf.h> 
 
-#include "easylogging++.h"
+#include "helper.h"
 
 class Device {
     public:
