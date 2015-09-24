@@ -9,15 +9,19 @@ LDIR=lib
 ODIR=obj
 #Files
 BINFILE= run
+MAIN_SRC= $(LDIR)/main.cpp
+TEST_BINFILE= run_test
+TEST_SRC= $(LDIR)/test.cpp
 SRC= Device.cpp \
 	 Configuration.cpp \
 	 helper.cpp \
-	 main.cpp
+	 dwf_exceptions.cpp
 _OBJ=$(SRC:.cpp=.o)
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
 _DEPS= Device.h \
 	   Configuration.h \
 	   helper.h \
+	   dwf_exceptions.h \
 	   easylogging++.h
 DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
 
@@ -36,6 +40,7 @@ endif
 .PHONY: all help clean
 
 all: $(BINFILE)
+test: $(TEST_BINFILE)
 help:
 	$(E)
 	$(E)Helpful Comments
@@ -46,9 +51,13 @@ $(ODIR)/%.o: $(LDIR)/%.cpp $(DEPS)
 	$(Q)if [ ! -d `dirname $@` ]; then mkdir -p `dirname $@`; fi
 	$(Q)$(CXX) -o $@ -c $< $(CPPFLAGS) -I$(IDIR)
 
-$(BINFILE):	$(OBJ) $(DEPS)
+$(BINFILE):	$(MAIN_SRC) $(OBJ) $(DEPS)
 	$(E)Linking $@
-	$(Q)$(CXX) -o $@ $^ $(CPPFLAGS) $(LIBS) $(LDFLAGS)
+	$(Q)$(CXX) -o $@ -I$(IDIR) $^ $(CPPFLAGS) $(LIBS) $(LDFLAGS)
+
+$(TEST_BINFILE): $(TEST_SRC) $(OBJ) $(DEPS)
+	$(E)Linking $@
+	$(Q)$(CXX) -o $@ -I$(IDIR) $^ $(CPPFLAGS) $(LIBS) $(LDFLAGS)
 
 clean:
 	$(E)Removing Files
