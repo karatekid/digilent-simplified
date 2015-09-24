@@ -3,4 +3,5 @@
 obj/
 
 # Repository specific files to ignore
+logs/
 run

@@ -9,11 +9,14 @@ LDIR=lib
 ODIR=obj
 #Files
 BINFILE= run
-SRC= Configuration.cpp \
+SRC= Device.cpp \
+	 Configuration.cpp \
 	 main.cpp
 _OBJ=$(SRC:.cpp=.o)
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
-_DEPS= Configuration.h
+_DEPS= Device.h \
+	   Configuration.h \
+	   easylogging++.h
 DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
 
 #Flag Handling

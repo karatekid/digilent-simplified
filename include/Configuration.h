@@ -3,7 +3,7 @@
 
 #include<digilent/waveforms/dwf.h> 
 
-class Configuration{
+class Configuration {
     public:
         Configuration(HDWF d);
     protected:
