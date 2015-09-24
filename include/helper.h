@@ -10,6 +10,9 @@ void initializeLogging(int argc, char *argv[]);
 //DWF Calls
 #include<digilent/waveforms/dwf.h> 
 
+//Prepend with FDwf and wrap
+#define DWF(fxn) \
+    WRAP_DWF(FDwf ## fxn)
 //Optional logging of dwf
 //Using do-while because can let user use ';' as referenced here:
 //https://gcc.gnu.org/onlinedocs/cpp/Swallowing-the-Semicolon.html

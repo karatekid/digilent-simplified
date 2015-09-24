@@ -28,4 +28,22 @@ DwfExceptionCreator(DwfDeviceNotSupported);
 DwfExceptionCreator(DwfInvalidParameter);
 
 void throwDwfException(DWFERC errCode);
+
+class DeviceMissingException : public std::exception {
+    const char * what() const throw() {
+        return "No Digilent Discovery Attached";
+    }
+};
+
+class VariableInvalidException : public std::exception {
+    const char * what() const throw() {
+        return "Variable to set is out of range";
+    }
+};
+
+class NotSetExactlyException : public std::exception {
+    const char * what() const throw() {
+        return "No Digilent Discovery Attached";
+    }
+};
 #endif

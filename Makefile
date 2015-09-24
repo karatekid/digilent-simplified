@@ -12,16 +12,16 @@ BINFILE= run
 MAIN_SRC= $(LDIR)/main.cpp
 TEST_BINFILE= run_test
 TEST_SRC= $(LDIR)/test.cpp
-SRC= Device.cpp \
+SRC= helper.cpp \
+	 dwf_exceptions.cpp \
 	 Configuration.cpp \
-	 helper.cpp \
-	 dwf_exceptions.cpp
+	 Device.cpp
 _OBJ=$(SRC:.cpp=.o)
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
-_DEPS= Device.h \
-	   Configuration.h \
-	   helper.h \
+_DEPS= helper.h \
 	   dwf_exceptions.h \
+	   Configuration.h \
+	   Device.h \
 	   easylogging++.h
 DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
 

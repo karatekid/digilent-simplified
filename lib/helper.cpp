@@ -19,7 +19,3 @@ void initializeLogging(int argc, char *argv[]) {
     el::Loggers::reconfigureAllLoggers(conf);
     el::Loggers::configureFromGlobal(LOGGING_LVL_CONFIG);
 }
-
-//DWF Calls
-void errorHandler() {
-}

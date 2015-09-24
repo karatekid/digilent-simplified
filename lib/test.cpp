@@ -29,6 +29,6 @@ int main(int argc, char *argv[]) {
 
     CLOG(DEBUG, "main") << "Beginning Testing";
     HDWF device;
-    WRAP_DWF(FDwfDeviceOpen(0, &device));
+    DWF(DeviceOpen(0, &device));
     return 0;
 }
