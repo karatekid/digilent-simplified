@@ -8,8 +8,11 @@
 
 class AutoConfiguration : public SetConfiguration<BOOL> {
     public:
-        AutoConfiguration() {}
-        AutoConfiguration(HDWF d) : SetConfiguration<BOOL>(d){}
+        AutoConfiguration() : SetConfiguration<BOOL>(){}
+        AutoConfiguration(HDWF d) : SetConfiguration<BOOL>(d) {
+            options.insert(0);
+            options.insert(1);
+        }
     protected:
         void setImpl(BOOL val) {
             DWF(DeviceAutoConfigureSet(device, val));
@@ -18,10 +21,6 @@ class AutoConfiguration : public SetConfiguration<BOOL> {
             BOOL val;
             DWF(DeviceAutoConfigureGet(device, &val));
             return val;
-        }
-        void initOptionsImpl() {
-            options.insert(0);
-            options.insert(1);
         }
 };
 

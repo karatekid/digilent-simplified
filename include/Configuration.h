@@ -10,14 +10,33 @@
 template<typename T>
 class Configuration {
     public:
-        Configuration(){}
-        Configuration(HDWF d);
+        explicit Configuration() : ready(false) {}
+        explicit Configuration(HDWF d) : device(d), ready(true) {}
         //double checks that set properly
-        void set(T val);
-        T get();
+        void set(T val) {
+            if(!isValid(val)) {
+                CLOG(WARNING, "dwf") << "Value not valid.";
+                throw VariableInvalidException();
+            }
+            setImpl(val);
+            T actualVal = getImpl();
+            //TODO: might need to adjust for doubles
+            if(actualVal != val) {
+                CLOG(WARNING, "dwf") << "Value didn't get set to desired value." <<
+                    "Actual = " << actualVal << ", desired = " << val;
+                throw NotSetExactlyException();
+            }
+        }
+        T get() {
+            return getImpl();
+        }
+        bool isReady() {
+            return ready;
+        }
         virtual bool isValid(T val) = 0;
     protected:
         HDWF device;
+        bool ready;
         //Digilent calls
         virtual void setImpl(T val) = 0;
         virtual T getImpl() = 0;
@@ -26,14 +45,17 @@ class Configuration {
 template<typename T>
 class SetConfiguration : public Configuration<T> {
     public:
-        SetConfiguration(){}
-        SetConfiguration(HDWF d);
-        bool isValid(T val);
+        explicit SetConfiguration() : Configuration<T>(){}
+        explicit SetConfiguration(HDWF d) : Configuration<T>(d) {}
+        bool isValid(T val) { 
+            return options.find(val) != options.end();
+        }
         //Deep copy of options
-        std::set<T> getOptions();
+        std::set<T> getOptions() { 
+            return std::set<T>(options);
+        }
     protected:
         std::set<T> options;
-        virtual void initOptionsImpl() = 0;
 
 };
 

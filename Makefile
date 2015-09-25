@@ -14,7 +14,6 @@ TEST_BINFILE= run_test
 TEST_SRC= $(LDIR)/test.cpp
 SRC= helper.cpp \
 	 dwf_exceptions.cpp \
-	 Configuration.cpp \
 	 Device.cpp
 _OBJ=$(SRC:.cpp=.o)
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
