@@ -45,20 +45,20 @@ void initializeLogging(int argc, char *argv[]);
     } while(0)
 
 //Configuration helper macros
-#define DEF_SET_CONFIG(name, type) \
-    class name : public SetConfiguration<type> { \
+#define DEF_CONFIG(name, type, config_type) \
+    class name : public config_type<type> { \
         public: \
-                name() : SetConfiguration<type>(){} \
+                name() : config_type<type>(){} \
                 name(HDWF); \
         protected: \
                 void setImpl(type); \
                 type getImpl(); \
     }
 
-#define DEF_SET_CONFIG_W_INDEX(name, type) \
-    class name : public SetConfiguration<type> { \
+#define DEF_CONFIG_W_INDEX(name, type, config_type) \
+    class name : public config_type<type> { \
         public: \
-                name() : SetConfiguration<type>(){} \
+                name() : config_type<type>(){} \
                 name(HDWF, int idx); \
         protected: \
                 void setImpl(type); \

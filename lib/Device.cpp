@@ -43,6 +43,8 @@ Device::Device() {
     for(int i = 0; i < numTriggerPins; ++i) {
         triggers.push_back(DeviceTriggerConfiguration(device, i));
     }
+    //Initialize instruments
+    analogIn = AnalogInput(device);
 }
 
 Device::~Device() {

@@ -3,9 +3,10 @@
 
 #include "helper.h"
 #include "Configuration.h"
+#include "AnalogInput.h"
 
-DEF_SET_CONFIG(AutoConfiguration, BOOL);
-DEF_SET_CONFIG_W_INDEX(DeviceTriggerConfiguration, TRIGSRC);
+DEF_CONFIG(AutoConfiguration, BOOL, SetConfiguration);
+DEF_CONFIG_W_INDEX(DeviceTriggerConfiguration, TRIGSRC, SetConfiguration);
 
 class Device {
     public:
@@ -16,6 +17,7 @@ class Device {
         AutoConfiguration autoConfigure;
         std::vector<DeviceTriggerConfiguration> triggers;
         //Device instruments
+        AnalogInput analogIn;
     private:
         HDWF device;
         const int numTriggerPins = 16;
