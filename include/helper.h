@@ -77,6 +77,7 @@ void initializeLogging(int argc, char *argv[]);
         return val; \
     }
 
+//If name same as name of call, shortens up macro signature
 #define IMPL_CONFIG_GETNSET(name, type) \
     IMPL_CONFIG_GETNSET_W_CALL(name, name, type)
 
@@ -90,6 +91,7 @@ void initializeLogging(int argc, char *argv[]);
         return val; \
     }
 
+//If name same as name of call, shortens up macro signature
 #define IMPL_CONFIG_GETNSET_W_INDEX(name, type) \
     IMPL_CONFIG_GETNSET_W_INDEX_W_CALL(name, name, type)
 
