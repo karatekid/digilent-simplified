@@ -12,6 +12,11 @@
 
 #include "helper.h"
 
+//Helper Functions
+bool isEquivalent(double a, double b) {
+    return abs(a - b) <= DBL_CLOSE_ENOUGH;
+}
+
 //Logging
 void initializeLogging(int argc, char *argv[]) {
     START_EASYLOGGINGPP(argc, argv);

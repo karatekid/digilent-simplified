@@ -1,6 +1,12 @@
 #ifndef __HELPER__H__
 #define __HELPER__H__
 
+#include<cmath>
+//Helper Functions
+
+#define DBL_CLOSE_ENOUGH 0.0001
+bool isEquivalent(double a, double b);
+
 //Logging
 #include "easylogging++.h"
 #define LOGGING_CONFIG "configs/general.conf"

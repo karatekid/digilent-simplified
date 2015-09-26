@@ -59,4 +59,52 @@ class SetConfiguration : public Configuration<T> {
 
 };
 
+template<typename T>
+struct ContinuousRange {
+    T min, max;
+    bool inRange(T val) {
+        return val >= min && val <= max;
+    }
+};
+
+template<typename T>
+class ContinuousRangeConfiguration : public Configuration<T> {
+    public: 
+        explicit ContinuousRangeConfiguration() : Configuration<T>(){}
+        explicit ContinuousRangeConfiguration(HDWF d) : Configuration<T>(d) {}
+        bool isValid(T val) { 
+            return range.inRange(val);
+        }
+        ContinuousRange<T> getRange() {
+            return range;
+        }
+    protected:
+        ContinuousRange<T> range;
+};
+
+template<typename T>
+struct DiscreteRange {
+    T min, max, stepSize;
+    bool inRange(T val) {
+        double numSteps = (val-min+0.0)/stepSize;
+        return ((val >= min && val <= max) &&
+                isEquivalent(numSteps, (int) numSteps));
+    }
+};
+
+template<typename T>
+class DiscreteRangeConfiguration : public Configuration<T> {
+    public: 
+        explicit DiscreteRangeConfiguration() : Configuration<T>(){}
+        explicit DiscreteRangeConfiguration(HDWF d) : Configuration<T>(d) {}
+        bool isValid(T val) { 
+            return range.inRange(val);
+        }
+        DiscreteRange<T> getRange() {
+            return range;
+        }
+    protected:
+        DiscreteRange<T> range;
+};
+
 #endif
