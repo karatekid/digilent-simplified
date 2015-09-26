@@ -4,8 +4,8 @@
 #include "helper.h"
 #include "Configuration.h"
 
-DEF_CONFIG(AnalogFrequencyConfiguration, double, ContinuousRangeConfiguration);
-DEF_CONFIG(AnalogBufferSize, int, ContinuousRangeConfiguration);
+DEF_CONFIG(AnalogInFrequency, double, ContinuousRangeConfiguration);
+DEF_CONFIG(AnalogInBufferSize, int, ContinuousRangeConfiguration);
 DEF_CONFIG(AnalogInAcquisitionMode, ACQMODE, SetConfiguration);
 
 class AnalogInput {
@@ -17,8 +17,8 @@ class AnalogInput {
         void status();
         */
         //AnalogIn Configurations
-        AnalogFrequencyConfiguration frequency;
-        AnalogBufferSize bufferSize;
+        AnalogInFrequency frequency;
+        AnalogInBufferSize bufferSize;
         AnalogInAcquisitionMode acquisitionMode;
     private:
         HDWF device;

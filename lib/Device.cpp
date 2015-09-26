@@ -39,9 +39,9 @@ Device::Device() {
     CLOG(INFO, "dwf") << "Device SN: " << s;
     DWF(DeviceOpen(0, &device));
     //Initalize configurations
-    autoConfigure = AutoConfiguration(device);
+    autoConfigure = DeviceAutoConfigure(device);
     for(int i = 0; i < numTriggerPins; ++i) {
-        triggers.push_back(DeviceTriggerConfiguration(device, i));
+        triggers.push_back(DeviceTrigger(device, i));
     }
     //Initialize instruments
     analogIn = AnalogInput(device);
@@ -56,13 +56,14 @@ void Device::reset() {
 }
 
 
-AutoConfiguration::AutoConfiguration(HDWF d) : SetConfiguration<BOOL>(d) {
+DeviceAutoConfigure::DeviceAutoConfigure(HDWF d) : SetConfiguration<BOOL>(d) {
     options.insert(0);
     options.insert(1);
 }
-IMPL_CONFIG_GETNSET(AutoConfiguration, DeviceAutoConfigure, BOOL);
 
-DeviceTriggerConfiguration::DeviceTriggerConfiguration(HDWF d, int idx)
+IMPL_CONFIG_GETNSET(DeviceAutoConfigure, BOOL);
+
+DeviceTrigger::DeviceTrigger(HDWF d, int idx)
     : SetConfiguration<TRIGSRC>(d), index(idx) {
     int triggerMask;
     DWF(DeviceTriggerInfo(device, &triggerMask));
@@ -73,4 +74,4 @@ DeviceTriggerConfiguration::DeviceTriggerConfiguration(HDWF d, int idx)
     }
 }
 
-IMPL_CONFIG_GETNSET_W_INDEX(DeviceTriggerConfiguration, DeviceTrigger, TRIGSRC);
+IMPL_CONFIG_GETNSET_W_INDEX(DeviceTrigger, TRIGSRC);

@@ -67,7 +67,7 @@ void initializeLogging(int argc, char *argv[]);
                 int index; \
     }
 
-#define IMPL_CONFIG_GETNSET(name, call, type) \
+#define IMPL_CONFIG_GETNSET_W_CALL(name, call, type) \
     void name::setImpl(type val) { \
         DWF( call ## Set(device, val)); \
     } \
@@ -77,7 +77,10 @@ void initializeLogging(int argc, char *argv[]);
         return val; \
     }
 
-#define IMPL_CONFIG_GETNSET_W_INDEX(name, call, type) \
+#define IMPL_CONFIG_GETNSET(name, type) \
+    IMPL_CONFIG_GETNSET_W_CALL(name, name, type)
+
+#define IMPL_CONFIG_GETNSET_W_INDEX_W_CALL(name, call, type) \
     void name::setImpl(type val) { \
         DWF( call ## Set(device, index, val)); \
     } \
@@ -86,5 +89,8 @@ void initializeLogging(int argc, char *argv[]);
         DWF(call ## Get(device, index, &val)); \
         return val; \
     }
+
+#define IMPL_CONFIG_GETNSET_W_INDEX(name, type) \
+    IMPL_CONFIG_GETNSET_W_INDEX_W_CALL(name, name, type)
 
 #endif

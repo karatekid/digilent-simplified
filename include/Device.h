@@ -5,8 +5,8 @@
 #include "Configuration.h"
 #include "AnalogInput.h"
 
-DEF_CONFIG(AutoConfiguration, BOOL, SetConfiguration);
-DEF_CONFIG_W_INDEX(DeviceTriggerConfiguration, TRIGSRC, SetConfiguration);
+DEF_CONFIG(DeviceAutoConfigure, BOOL, SetConfiguration);
+DEF_CONFIG_W_INDEX(DeviceTrigger, TRIGSRC, SetConfiguration);
 
 class Device {
     public:
@@ -14,8 +14,8 @@ class Device {
         ~Device();
         void reset();
         //Device configurations
-        AutoConfiguration autoConfigure;
-        std::vector<DeviceTriggerConfiguration> triggers;
+        DeviceAutoConfigure autoConfigure;
+        std::vector<DeviceTrigger> triggers;
         //Device instruments
         AnalogInput analogIn;
     private:
