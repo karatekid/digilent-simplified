@@ -4,6 +4,7 @@
 #include "helper.h"
 #include "Configuration.h"
 #include "AnalogInput.h"
+#include "DigitalInput.h"
 
 DEF_CONFIG(DeviceAutoConfigure, BOOL, SetConfiguration);
 DEF_CONFIG_W_INDEX(DeviceTrigger, TRIGSRC, SetConfiguration);
@@ -18,6 +19,7 @@ class Device {
         std::vector<DeviceTrigger> triggers;
         //Device instruments
         AnalogInput analogIn;
+        DigitalInput digitalIn;
     private:
         HDWF device;
         const int numTriggerPins = 16;

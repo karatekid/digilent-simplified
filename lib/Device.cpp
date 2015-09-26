@@ -45,6 +45,7 @@ Device::Device() {
     }
     //Initialize instruments
     analogIn = AnalogInput(device);
+    digitalIn = DigitalInput(device);
 }
 
 Device::~Device() {
