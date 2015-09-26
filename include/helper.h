@@ -49,6 +49,18 @@ void initializeLogging(int argc, char *argv[]);
                 type getImpl(); \
     }
 
+#define DEF_SET_CONFIG_W_INDEX(name, type) \
+    class name : public SetConfiguration<type> { \
+        public: \
+                name() : SetConfiguration<type>(){} \
+                name(HDWF, int idx); \
+        protected: \
+                void setImpl(type); \
+                type getImpl(); \
+        private: \
+                int index; \
+    }
+
 #define IMPL_CONFIG_GETNSET(name, call, type) \
     void name::setImpl(type val) { \
         DWF( call ## Set(device, val)); \
@@ -56,6 +68,16 @@ void initializeLogging(int argc, char *argv[]);
     type name::getImpl() { \
         type val; \
         DWF(call ## Get(device, &val)); \
+        return val; \
+    }
+
+#define IMPL_CONFIG_GETNSET_W_INDEX(name, call, type) \
+    void name::setImpl(type val) { \
+        DWF( call ## Set(device, index, val)); \
+    } \
+    type name::getImpl() { \
+        type val; \
+        DWF(call ## Get(device, index, &val)); \
         return val; \
     }
 

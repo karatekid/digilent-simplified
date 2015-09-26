@@ -58,5 +58,17 @@ AutoConfiguration::AutoConfiguration(HDWF d) : SetConfiguration<BOOL>(d) {
     options.insert(0);
     options.insert(1);
 }
-
 IMPL_CONFIG_GETNSET(AutoConfiguration, DeviceAutoConfigure, BOOL)
+
+DeviceTriggerConfiguration::DeviceTriggerConfiguration(HDWF d, int idx)
+    : SetConfiguration<TRIGSRC>(d), index(idx) {
+    int triggerMask;
+    DWF(DeviceTriggerInfo(device, &triggerMask));
+    for(TRIGSRC i = 0; i < sizeof(int); ++i) {
+        if(IsBitSet(triggerMask,i)) {
+            options.insert(i);
+        }
+    }
+}
+
+IMPL_CONFIG_GETNSET_W_INDEX(DeviceTriggerConfiguration, DeviceTrigger, TRIGSRC)

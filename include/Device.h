@@ -7,32 +7,7 @@
 #include "Configuration.h"
 
 DEF_SET_CONFIG(AutoConfiguration, BOOL);
-
-class DeviceTriggerConfiguration : public SetConfiguration<TRIGSRC> {
-    public:
-        DeviceTriggerConfiguration() : SetConfiguration<TRIGSRC>() {}
-        DeviceTriggerConfiguration(HDWF d, int idx)
-            : SetConfiguration<TRIGSRC>(d), index(idx) {
-            int triggerMask;
-            DWF(DeviceTriggerInfo(device, &triggerMask));
-            for(TRIGSRC i = 0; i < sizeof(int); ++i) {
-                if(IsBitSet(triggerMask,i)) {
-                    options.insert(i);
-                }
-            }
-        }
-    protected:
-        void setImpl(TRIGSRC val) {
-            DWF(DeviceTriggerSet(device, index, val));
-        }
-        TRIGSRC getImpl() {
-            TRIGSRC val;
-            DWF(DeviceTriggerGet(device, index, &val));
-            return val;
-        }
-    private:
-        int index;
-};
+DEF_SET_CONFIG_W_INDEX(DeviceTriggerConfiguration, TRIGSRC);
 
 class Device {
     public:
