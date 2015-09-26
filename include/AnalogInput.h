@@ -5,6 +5,8 @@
 #include "Configuration.h"
 
 DEF_CONFIG(AnalogFrequencyConfiguration, double, ContinuousRangeConfiguration);
+DEF_CONFIG(AnalogBufferSize, int, ContinuousRangeConfiguration);
+DEF_CONFIG(AnalogInAcquisitionMode, ACQMODE, SetConfiguration);
 
 class AnalogInput {
     public: 
@@ -16,8 +18,11 @@ class AnalogInput {
         */
         //AnalogIn Configurations
         AnalogFrequencyConfiguration frequency;
+        AnalogBufferSize bufferSize;
+        AnalogInAcquisitionMode acquisitionMode;
     private:
         HDWF device;
+        int bitResolution;
 };
 
 #endif

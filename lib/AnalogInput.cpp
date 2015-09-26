@@ -15,6 +15,7 @@
 AnalogInput::AnalogInput(HDWF d) 
 : device(d) {
     frequency = AnalogFrequencyConfiguration(device);
+    DWF(AnalogInBitsInfo(device, &bitResolution));
 }
 
 void AnalogInput::reset() {
@@ -26,3 +27,23 @@ AnalogFrequencyConfiguration::AnalogFrequencyConfiguration(HDWF d)
     DWF(AnalogInFrequencyInfo(device, &(range.min), &(range.max)));
 }
 IMPL_CONFIG_GETNSET(AnalogFrequencyConfiguration, AnalogInFrequency, double);
+
+AnalogBufferSize::AnalogBufferSize(HDWF d)
+: ContinuousRangeConfiguration<int>(d) {
+    DWF(AnalogInBufferSizeInfo(device, &(range.min), &(range.max)));
+}
+IMPL_CONFIG_GETNSET(AnalogBufferSize, AnalogInBufferSize, int);
+
+AnalogInAcquisitionMode::AnalogInAcquisitionMode(HDWF d)
+: SetConfiguration<ACQMODE>(d) {
+    int triggerMask;
+    DWF(AnalogInAcquisitionModeInfo(device, &triggerMask));
+    for(ACQMODE i = 0; i < sizeof(int); ++i) {
+        if(IsBitSet(triggerMask, i)) {
+            options.insert(i);
+        }
+    }
+}
+IMPL_CONFIG_GETNSET(AnalogInAcquisitionMode, AnalogInAcquisitionMode, BOOL);
+
+
