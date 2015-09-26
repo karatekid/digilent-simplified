@@ -95,4 +95,61 @@ void initializeLogging(int argc, char *argv[]);
 #define IMPL_CONFIG_GETNSET_W_INDEX(name, type) \
     IMPL_CONFIG_GETNSET_W_INDEX_W_CALL(name, name, type)
 
+#define IMPL_CR_CONFIG_ALL(name, type) \
+    name::name(HDWF d) : ContinuousRangeConfiguration<type>(d) { \
+        DWF(name ## Info(device, &(range.min), &(range.max))); \
+    } \
+    IMPL_CONFIG_GETNSET(name, type)
+
+#define IMPL_CR_CONFIG_ALL_W_INDEX(name, type) \
+    name::name(HDWF d, int idx) \
+    : ContinuousRangeConfiguration<type>(d), index(idx) { \
+        DWF(name ## Info(device, &(range.min), &(range.max))); \
+    } \
+    IMPL_CONFIG_GETNSET_W_INDEX(name, type)
+
+#define SAVE_SET_INFO_FROM_BITMASK(name, type) \
+    int mask; \
+    DWF(name ## Info(device, &mask)); \
+    for(type i = 0; i < sizeof(int); ++i) { \
+        if(IsBitSet(mask, i)) { \
+            options.insert(i); \
+        } \
+    }
+
+#define IMPL_SET_CONFIG_ALL(name, type) \
+    name::name(HDWF d) : SetConfiguration<type>(d) { \
+        SAVE_SET_INFO_FROM_BITMASK(name, type); \
+    } \
+    IMPL_CONFIG_GETNSET(name, type)
+
+#define IMPL_SET_CONFIG_ALL_W_INDEX(name, type) \
+    name::name(HDWF d, int idx) : SetConfiguration<type>(d), index(idx) { \
+        SAVE_SET_INFO_FROM_BITMASK(name, type); \
+    } \
+    IMPL_CONFIG_GETNSET_W_INDEX(name, type)
+
+#define SAVE_DR_INFO(name, type) \
+    double numSteps; \
+    DWF(name ## Info(device, &(range.min), &(range.max), &numSteps)); \
+    if(numSteps <= 1) { \
+        range.stepSize = 0; \
+    } else { \
+        range.stepSize = (range.max - range.min) / (numSteps - 1); \
+    }
+
+#define IMPL_DR_CONFIG_ALL(name, type) \
+    name::name(HDWF d) : DiscreteRangeConfiguration<type>(d) { \
+        SAVE_DR_INFO(name, type); \
+    } \
+    IMPL_CONFIG_GETNSET(name, type);
+
+#define IMPL_DR_CONFIG_ALL_W_INDEX(name, type) \
+    name::name(HDWF d, int idx) \
+    : DiscreteRangeConfiguration<type>(d), index(idx) { \
+        SAVE_DR_INFO(name, type); \
+    } \
+    IMPL_CONFIG_GETNSET_W_INDEX(name, type);
+
+
 #endif
