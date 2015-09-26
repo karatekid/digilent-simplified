@@ -28,7 +28,6 @@ int main(int argc, char *argv[]) {
     initializeLogging(argc, argv);
 
     CLOG(DEBUG, "main") << "Beginning Testing";
-    HDWF device;
-    DWF(DeviceOpen(0, &device));
+    Device dev;
     return 0;
 }

@@ -6,32 +6,46 @@
 #include "helper.h"
 #include "Configuration.h"
 
-class AutoConfiguration : public SetConfiguration<BOOL> {
+DEF_SET_CONFIG(AutoConfiguration, BOOL);
+
+class DeviceTriggerConfiguration : public SetConfiguration<TRIGSRC> {
     public:
-        AutoConfiguration() : SetConfiguration<BOOL>(){}
-        AutoConfiguration(HDWF d) : SetConfiguration<BOOL>(d) {
-            options.insert(0);
-            options.insert(1);
+        DeviceTriggerConfiguration() : SetConfiguration<TRIGSRC>() {}
+        DeviceTriggerConfiguration(HDWF d, int idx)
+            : SetConfiguration<TRIGSRC>(d), index(idx) {
+            int triggerMask;
+            DWF(DeviceTriggerInfo(device, &triggerMask));
+            for(TRIGSRC i = 0; i < sizeof(int); ++i) {
+                if(IsBitSet(triggerMask,i)) {
+                    options.insert(i);
+                }
+            }
         }
     protected:
-        void setImpl(BOOL val) {
-            DWF(DeviceAutoConfigureSet(device, val));
+        void setImpl(TRIGSRC val) {
+            DWF(DeviceTriggerSet(device, index, val));
         }
-        BOOL getImpl() {
-            BOOL val;
-            DWF(DeviceAutoConfigureGet(device, &val));
+        TRIGSRC getImpl() {
+            TRIGSRC val;
+            DWF(DeviceTriggerGet(device, index, &val));
             return val;
         }
+    private:
+        int index;
 };
 
 class Device {
     public:
         Device();
+        ~Device();
         void reset();
         //Device configurations
         AutoConfiguration autoConfigure;
+        std::vector<DeviceTriggerConfiguration> triggers;
+        //Device instruments
     private:
         HDWF device;
+        const int numTriggerPins = 16;
 };
 
 #endif

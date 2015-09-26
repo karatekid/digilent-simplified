@@ -40,8 +40,23 @@ Device::Device() {
     DWF(DeviceOpen(0, &device));
     //Initalize configurations
     autoConfigure = AutoConfiguration(device);
+    for(int i = 0; i < numTriggerPins; ++i) {
+        triggers.push_back(DeviceTriggerConfiguration(device, i));
+    }
+}
+
+Device::~Device() {
+    DWF(DeviceCloseAll());
 }
 
 void Device::reset() {
     DWF(DeviceReset(device));
 }
+
+
+AutoConfiguration::AutoConfiguration(HDWF d) : SetConfiguration<BOOL>(d) {
+    options.insert(0);
+    options.insert(1);
+}
+
+IMPL_CONFIG_GETNSET(AutoConfiguration, DeviceAutoConfigure, BOOL)

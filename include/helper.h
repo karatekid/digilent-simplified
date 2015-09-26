@@ -38,4 +38,25 @@ void initializeLogging(int argc, char *argv[]);
         CLOG(ERROR, "dwf") << "Apparently, there was no error."; \
     } while(0)
 
+//Configuration helper macros
+#define DEF_SET_CONFIG(name, type) \
+    class name : public SetConfiguration<type> { \
+        public: \
+                name() : SetConfiguration<type>(){} \
+                name(HDWF); \
+        protected: \
+                void setImpl(type); \
+                type getImpl(); \
+    }
+
+#define IMPL_CONFIG_GETNSET(name, call, type) \
+    void name::setImpl(type val) { \
+        DWF( call ## Set(device, val)); \
+    } \
+    type name::getImpl() { \
+        type val; \
+        DWF(call ## Get(device, &val)); \
+        return val; \
+    }
+
 #endif
