@@ -107,4 +107,25 @@ class DiscreteRangeConfiguration : public Configuration<T> {
         DiscreteRange<T> range;
 };
 
+template<typename T>
+class BitSetConfiguration : public Configuration<T> {
+    public:
+        explicit BitSetConfiguration() : Configuration<T>(){}
+        explicit BitSetConfiguration(HDWF d) : Configuration<T>(d) {}
+        bool isValid(T val) { 
+            //If bitmask covers val, then you're ok
+            return (((val.levelLow  & bitmask.levelLow)  == val.levelLow) &&
+                    ((val.levelHigh & bitmask.levelHigh) == val.levelHigh) &&
+                    ((val.edgeRise  & bitmask.edgeRise)  == val.edgeRise) &&
+                    ((val.edgeFall  & bitmask.edgeFall)  == val.edgeFall));
+        }
+        T getBitmask() { 
+            //TODO: might want to ensure copying, instead of just giving access
+            return bitmask;
+        }
+    protected:
+        T bitmask;
+
+};
+
 #endif

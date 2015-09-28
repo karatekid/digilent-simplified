@@ -13,6 +13,10 @@ DEF_CONFIG(DigitalInAcquisitionMode, ACQMODE, SetConfiguration);
 DEF_CONFIG(DigitalInTriggerSource, TRIGSRC, SetConfiguration);
 DEF_CONFIG(DigitalInTriggerPosition, unsigned int, ContinuousRangeConfiguration);
 DEF_CONFIG(DigitalInTriggerAutoTimeout, double, DiscreteRangeConfiguration);
+struct DigitalInTriggerStruct {
+    unsigned int levelLow, levelHigh, edgeRise, edgeFall;
+};
+DEF_CONFIG(DigitalInTrigger, DigitalInTriggerStruct, BitSetConfiguration);
 
 class DigitalInput {
     public:
@@ -32,6 +36,7 @@ class DigitalInput {
         DigitalInTriggerSource triggerSource;
         DigitalInTriggerPosition triggerPosition;
         DigitalInTriggerAutoTimeout triggerAutoTimeout;
+        DigitalInTrigger trigger;
     private:
         HDWF device;
         double internalClkFreq;

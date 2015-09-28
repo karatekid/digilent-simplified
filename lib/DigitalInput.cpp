@@ -25,6 +25,7 @@ DigitalInput::DigitalInput(HDWF d)
     triggerSource = DigitalInTriggerSource(d);
     triggerPosition = DigitalInTriggerPosition(d);
     triggerAutoTimeout = DigitalInTriggerAutoTimeout(d);
+    trigger = DigitalInTrigger(d);
 }
 
 void DigitalInput::reset() {
@@ -68,3 +69,28 @@ DigitalInTriggerPosition::DigitalInTriggerPosition(HDWF d)
 IMPL_CONFIG_GETNSET(DigitalInTriggerPosition, unsigned int);
 
 IMPL_DR_CONFIG_ALL(DigitalInTriggerAutoTimeout, double);
+
+DigitalInTrigger::DigitalInTrigger(HDWF d)
+: BitSetConfiguration<DigitalInTriggerStruct>(d) {
+    DWF(DigitalInTriggerInfo(device, 
+                &(bitmask.levelLow),
+                &(bitmask.levelHigh),
+                &(bitmask.edgeRise),
+                &(bitmask.edgeFall)));
+}
+void DigitalInTrigger::setImpl(DigitalInTriggerStruct val) {
+    DWF(DigitalInTriggerSet(device,
+                val.levelLow,
+                val.levelHigh,
+                val.edgeRise,
+                val.edgeFall));
+}
+DigitalInTriggerStruct DigitalInTrigger::getImpl() {
+    DigitalInTriggerStruct val;
+    DWF(DigitalInTriggerGet(device,
+                &(val.levelLow),
+                &(val.levelHigh),
+                &(val.edgeRise),
+                &(val.edgeFall)));
+    return val;
+}
