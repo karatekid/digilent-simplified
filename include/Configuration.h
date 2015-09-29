@@ -14,10 +14,7 @@ class Configuration {
         explicit Configuration(HDWF d) : device(d), ready(true) {}
         //double checks that set properly
         void set(T val) {
-            if(!isValid(val)) {
-                CLOG(WARNING, "dwf") << "Value not valid.";
-                throw VariableInvalidException();
-            }
+            assertValid(val);
             setImpl(val);
             T actualVal = getImpl();
             //TODO: might need to adjust for doubles
@@ -34,6 +31,7 @@ class Configuration {
             return ready;
         }
         virtual bool isValid(T val) = 0;
+        virtual void assertValid(T val) = 0;
     protected:
         HDWF device;
         bool ready;
@@ -49,6 +47,16 @@ class SetConfiguration : public Configuration<T> {
         explicit SetConfiguration(HDWF d) : Configuration<T>(d) {}
         bool isValid(T val) { 
             return options.find(val) != options.end();
+        }
+        void assertValid(T val) {
+            if(!isValid(val)) {
+                CLOG(WARNING, "dwf") << "Value(" << val << ") not valid.\n" <<
+                    "could have chosen any of these values: ";// << options;
+                for(auto it = options.begin(); it != options.end(); ++it) {
+                    CLOG(WARNING, "dwf") << *it;
+                }
+                throw VariableInvalidException();
+            }
         }
         //Deep copy of options
         std::set<T> getOptions() { 
@@ -75,6 +83,14 @@ class ContinuousRangeConfiguration : public Configuration<T> {
         bool isValid(T val) { 
             return range.inRange(val);
         }
+        void assertValid(T val) {
+            if(!isValid(val)) {
+                CLOG(WARNING, "dwf") << "Value(" << val << ") not valid.\n" <<
+                    "could have chosen b/t [" << range.min << ", " <<
+                    range.max << "]";
+                throw VariableInvalidException();
+            }
+        }
         ContinuousRange<T> getRange() {
             return range;
         }
@@ -100,6 +116,14 @@ class DiscreteRangeConfiguration : public Configuration<T> {
         bool isValid(T val) { 
             return range.inRange(val);
         }
+        void assertValid(T val) {
+            if(!isValid(val)) {
+                CLOG(WARNING, "dwf") << "Value(" << val << ") not valid.\n" <<
+                    "could have chosen b/t [" << range.min << ", " <<
+                    range.max << "] w/ a step of " << range.stepSize;
+                throw VariableInvalidException();
+            }
+        }
         DiscreteRange<T> getRange() {
             return range;
         }
@@ -107,6 +131,7 @@ class DiscreteRangeConfiguration : public Configuration<T> {
         DiscreteRange<T> range;
 };
 
+//Only works with DigitalInTriggerStruct
 template<typename T>
 class BitSetConfiguration : public Configuration<T> {
     public:
@@ -118,6 +143,12 @@ class BitSetConfiguration : public Configuration<T> {
                     ((val.levelHigh & bitmask.levelHigh) == val.levelHigh) &&
                     ((val.edgeRise  & bitmask.edgeRise)  == val.edgeRise) &&
                     ((val.edgeFall  & bitmask.edgeFall)  == val.edgeFall));
+        }
+        void assertValid(T val) {
+            if(!isValid(val)) {
+                CLOG(WARNING, "dwf") << "Value not valid.";
+                throw VariableInvalidException();
+            }
         }
         T getBitmask() { 
             //TODO: might want to ensure copying, instead of just giving access
