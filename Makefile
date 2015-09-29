@@ -23,7 +23,9 @@ SRC= helper.cpp \
 	 dwf_exceptions.cpp \
 	 Device.cpp \
 	 AnalogInput.cpp \
-	 DigitalInput.cpp
+	 DigitalInput.cpp \
+	 DigitalInputConfigurations.cpp \
+	 AnalogInputConfigurations.cpp
 _OBJ=$(SRC:.cpp=.o)
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
 _DEPS= helper.h \
@@ -32,6 +34,8 @@ _DEPS= helper.h \
 	   Device.h \
 	   AnalogInput.h \
 	   DigitalInput.h \
+	   DigitalInputConfigurations.h \
+	   AnalogInputConfigurations.h \
 	   easylogging++.h
 DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
 
