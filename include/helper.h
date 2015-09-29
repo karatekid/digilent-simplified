@@ -44,6 +44,13 @@ void initializeLogging(int argc, char *argv[]);
         CLOG(ERROR, "dwf") << "Apparently, there was no error."; \
     } while(0)
 
+//Instrument specific types
+struct InputStatusStruct {
+    DwfState state;
+    int samplesLeft, samplesValid, indexWrite;
+    BOOL autoTriggered;
+};
+
 //Configuration helper macros
 #define DEF_CONFIG(name, type, config_type) \
     class name : public config_type<type> { \

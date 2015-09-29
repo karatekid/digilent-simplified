@@ -46,4 +46,16 @@ class NotSetExactlyException : public std::exception {
         return "No Digilent Discovery Attached";
     }
 };
+
+class AcquisitionModeNotImplementedException : public std::exception {
+    const char * what() const throw() {
+        return "An acquisitionMode is set that we don't read";
+    }
+};
+
+class DataMissedDuringStreamException : public std::exception {
+    const char * what() const throw() {
+        return "Data was lost during scanScreen Acquisition";
+    }
+};
 #endif

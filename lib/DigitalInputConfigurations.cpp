@@ -23,16 +23,18 @@ IMPL_CONFIG_GETNSET(DigitalInDivider, unsigned int);
 
 DigitalInSampleFormat::DigitalInSampleFormat(HDWF d)
 : SetConfiguration<int>(d) {
-    options.insert(8);
+    //options.insert(8);
     options.insert(16);
-    options.insert(32);
+    //options.insert(32);
 }
 IMPL_CONFIG_GETNSET(DigitalInSampleFormat, int);
 
 DigitalInBufferSize::DigitalInBufferSize(HDWF d)
 : ContinuousRangeConfiguration<int>(d) {
-    range.min = 1;
+    //BufferSize works in bytes, we want it in samples
+    range.min = DIGITAL_NUM_BYTES_IN_SAMPLE;
     DWF(DigitalInBufferSizeInfo(device, &(range.max)));
+    range.max /= DIGITAL_NUM_BYTES_IN_SAMPLE;
 }
 IMPL_CONFIG_GETNSET(DigitalInBufferSize, int);
 

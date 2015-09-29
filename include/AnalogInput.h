@@ -8,6 +8,9 @@ class AnalogInput {
         AnalogInput() {}
         AnalogInput(HDWF d);
         void reset();
+        void start();
+        void stop();
+
         /*
         void status();
         */
@@ -31,7 +34,7 @@ class AnalogInput {
         AnalogInTriggerHysteresis          triggerHysteresis;
         AnalogInTriggerLengthCondition     triggerLengthCondition;
         AnalogInTriggerLength              triggerLength;
-    private:
+    protected:
         HDWF device;
         int bitResolution;
         int numChannels;
