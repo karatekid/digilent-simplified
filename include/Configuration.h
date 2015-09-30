@@ -2,6 +2,8 @@
 #define __CONFIGURATION__H__
 
 #include<set>
+#include<sstream>
+#include<string>
 
 #include<digilent/waveforms/dwf.h> 
 
@@ -19,7 +21,7 @@ class Configuration {
             T actualVal = getImpl();
             //TODO: might need to adjust for doubles
             if(actualVal != val) {
-                CLOG(WARNING, "dwf") << "Value didn't get set to desired value." <<
+                CLOG(ERROR, "dwf") << "Value didn't get set to desired value." <<
                     "Actual = " << actualVal << ", desired = " << val;
                 throw NotSetExactlyException();
             }
@@ -50,17 +52,26 @@ class SetConfiguration : public Configuration<T> {
         }
         void assertValid(T val) {
             if(!isValid(val)) {
-                CLOG(WARNING, "dwf") << "Value(" << val << ") not valid.\n" <<
-                    "could have chosen any of these values: ";// << options;
-                for(auto it = options.begin(); it != options.end(); ++it) {
-                    CLOG(WARNING, "dwf") << *it;
-                }
+                CLOG(ERROR, "dwf") << "Value(" << val << ") not valid.\n" <<
+                    "Valid options: " << optionsAsString();
                 throw VariableInvalidException();
             }
         }
         //Deep copy of options
         std::set<T> getOptions() { 
             return std::set<T>(options);
+        }
+        std::string optionsAsString() {
+            std::ostringstream convert;
+            bool first = true;
+            for(auto it = options.begin(); it != options.end(); ++it) {
+                if(!first) {
+                    convert << ", ";
+                }
+                convert << *it;
+                first = false;
+            }
+            return convert.str();
         }
     protected:
         std::set<T> options;
@@ -72,6 +83,11 @@ struct ContinuousRange {
     T min, max;
     bool inRange(T val) {
         return val >= min && val <= max;
+    }
+    std::string toString() {
+        std::ostringstream convert;
+        convert << "[" << min << ", " << max << "]";
+        return convert.str();
     }
 };
 
@@ -85,9 +101,8 @@ class ContinuousRangeConfiguration : public Configuration<T> {
         }
         void assertValid(T val) {
             if(!isValid(val)) {
-                CLOG(WARNING, "dwf") << "Value(" << val << ") not valid.\n" <<
-                    "could have chosen b/t [" << range.min << ", " <<
-                    range.max << "]";
+                CLOG(ERROR, "dwf") << "Value(" << val << ") not valid.\n" <<
+                    "Valid options: " << range.toString();
                 throw VariableInvalidException();
             }
         }
@@ -106,6 +121,12 @@ struct DiscreteRange {
         return ((val >= min && val <= max) &&
                 isEquivalent(numSteps, (int) numSteps));
     }
+    std::string toString() {
+        std::ostringstream convert;
+        convert << "[" << min << ", " << max << 
+            "] @ step: " << stepSize;
+        return convert.str();
+    }
 };
 
 template<typename T>
@@ -118,9 +139,8 @@ class DiscreteRangeConfiguration : public Configuration<T> {
         }
         void assertValid(T val) {
             if(!isValid(val)) {
-                CLOG(WARNING, "dwf") << "Value(" << val << ") not valid.\n" <<
-                    "could have chosen b/t [" << range.min << ", " <<
-                    range.max << "] w/ a step of " << range.stepSize;
+                CLOG(ERROR, "dwf") << "Value(" << val << ") not valid.\n" <<
+                    "Valid options: " << range.toString();
                 throw VariableInvalidException();
             }
         }
@@ -146,7 +166,7 @@ class BitSetConfiguration : public Configuration<T> {
         }
         void assertValid(T val) {
             if(!isValid(val)) {
-                CLOG(WARNING, "dwf") << "Value not valid.";
+                CLOG(ERROR, "dwf") << "Value not valid.";
                 throw VariableInvalidException();
             }
         }
