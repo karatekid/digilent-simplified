@@ -1,6 +1,7 @@
 #ifndef __HELPER__H__
 #define __HELPER__H__
 
+#include<algorithm>
 #include<cmath>
 //Helper Functions
 
@@ -50,6 +51,38 @@ struct InputStatusStruct {
     int samplesLeft, samplesValid, indexWrite;
     BOOL autoTriggered;
 };
+//Status macro
+#define PERFORM_READ_INTERNALS(PREFIX, READ_FXN) \
+    int lastIndexWrite = inputStatus.indexWrite;\
+    DWF(PREFIX ## Status(device, true, &(inputStatus.state))); \
+    DWF(PREFIX ## StatusSamplesLeft(device, &(inputStatus.samplesLeft))); \
+    DWF(PREFIX ## StatusSamplesValid(device, &(inputStatus.samplesValid))); \
+    DWF(PREFIX ## StatusIndexWrite(device, &(inputStatus.indexWrite))); \
+    DWF(PREFIX ## StatusAutoTriggered(device, &(inputStatus.autoTriggered))); \
+    int beginIndex = 0, endIndex = 0; \
+    switch(acquisitionMode.get()) { \
+        case acqmodeSingle: \
+            if(inputStatus.state == DwfStateDone) { \
+                endIndex = bufferSize.get(); \
+            } \
+            break; \
+        case acqmodeScanShift: \
+            endIndex = std::min( \
+                     inputStatus.samplesValid,\
+                    bufferSize.get()); \
+            break; \
+        case acqmodeScanScreen: \
+            beginIndex = lastIndexWrite; \
+            endIndex = inputStatus.indexWrite % bufferSize.get(); \
+            break; \
+        default: \
+            throw AcquisitionModeNotImplementedException(); \
+            break; \
+    } \
+    return READ_FXN(beginIndex, endIndex)
+
+int getMaxIdxToReadTo(int i, int j, int bufferSize);
+int getNumSamplesToRead(int i, int j, int bufferSize);
 
 //Configuration helper macros
 #define DEF_CONFIG(name, type, config_type) \

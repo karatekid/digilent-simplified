@@ -49,56 +49,14 @@ void DigitalInput::stop() {
 }
 
 std::vector<DigitalData> DigitalInput::read() {
-    //Cache previous status values that we'll need
-    int lastIndexWrite = inputStatus.indexWrite;
-    //Call read
-    DWF(DigitalInStatus(device, true, &(inputStatus.state)));
-    //Populate InputStatusStruct
-    DWF(DigitalInStatusSamplesLeft(device, &(inputStatus.samplesLeft)));
-    DWF(DigitalInStatusSamplesValid(device, &(inputStatus.samplesValid)));
-    DWF(DigitalInStatusIndexWrite(device, &(inputStatus.indexWrite)));
-    DWF(DigitalInStatusAutoTriggered(device, &(inputStatus.autoTriggered)));
-    //Get data depending on acquisitionMode
-    //Read from beginIndex until endIndex [beginIndex, endIndex)
-    //ie) begin:0, end: 1 --> we would read just index 0
-    int beginIndex = 0, endIndex = 0;
-    switch(acquisitionMode.get()) {
-        case acqmodeSingle:
-            //Only read when complete
-            if(inputStatus.state == DwfStateDone) {
-                endIndex = bufferSize.get();
-            }
-            break;
-        case acqmodeScanShift:
-            endIndex = std::min(
-                    inputStatus.samplesValid,
-                    bufferSize.get());
-            break;
-        case acqmodeScanScreen:
-            beginIndex = lastIndexWrite;
-            //Index Write keeps going, must wrap with bufferSize
-            endIndex = inputStatus.indexWrite % bufferSize.get();
-            break;
-        default:
-            throw AcquisitionModeNotImplementedException();
-            break;
-    }
-    return readDigitalDataFromItoJ(beginIndex, endIndex);
+    PERFORM_READ_INTERNALS(DigitalIn, readDigitalDataFromItoJ);
 }
 
 std::vector<DigitalData> DigitalInput::readDigitalDataFromItoJ(int i, int j) {
     //Read to the furthest sample needed
-    int maxNumSamples;
-    int numSamplesToRead;
-    if(j < i) {
-        //Reversed:
-        //We need to read until the end of the buffer
-        maxNumSamples = bufferSize.get();
-        numSamplesToRead = (maxNumSamples - i) + j;
-    } else {
-        maxNumSamples = std::max(i, j);
-        numSamplesToRead = j - i;
-    }
+    int maxNumSamples = getMaxIdxToReadTo(i, j, bufferSize.get());
+    int numSamplesToRead = getNumSamplesToRead(i, j, bufferSize.get());
+    
     //IndexWrite & samplesValid deals with samples, we need to get it in terms
     //of bytes
     int numBytes = DIGITAL_NUM_BYTES_IN_SAMPLE * maxNumSamples;

@@ -1,6 +1,9 @@
 #ifndef __ANALOG_INPUT__H__
 #define __ANALOG_INPUT__H__
 
+#include<map>
+#include<vector>
+
 #include "AnalogInputConfigurations.h"
 
 class AnalogInput {
@@ -10,7 +13,7 @@ class AnalogInput {
         void reset();
         void start();
         void stop();
-
+        std::map<int, std::vector<double>> read();
         /*
         void status();
         */
@@ -38,6 +41,9 @@ class AnalogInput {
         HDWF device;
         int bitResolution;
         int numChannels;
+        //Updated after calling read
+        InputStatusStruct inputStatus;
+        std::map<int, std::vector<double>> readAnalogDataFromItoJ(int i, int j);
 };
 
 #endif

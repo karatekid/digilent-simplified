@@ -42,3 +42,35 @@ AnalogInput::AnalogInput(HDWF d)
 void AnalogInput::reset() {
     DWF(AnalogInReset(device));
 }
+
+void AnalogInput::start() {
+    DWF(AnalogInConfigure(device, true, true));
+}
+
+void AnalogInput::stop() {
+    DWF(AnalogInConfigure(device, false, false));
+}
+
+std::map<int, std::vector<double>> AnalogInput::read() {
+    PERFORM_READ_INTERNALS(AnalogIn, readAnalogDataFromItoJ);
+}
+
+std::map<int, std::vector<double>> AnalogInput::readAnalogDataFromItoJ(int i, int j) {
+    //Read to the furthest sample needed
+    int maxNumSamples = getMaxIdxToReadTo(i, j, bufferSize.get());
+    int numSamplesToRead = getNumSamplesToRead(i, j, bufferSize.get());
+    double tmpArr[maxNumSamples];
+
+    std::map<int, std::vector<double>> data;
+    for(int channel = 0; channel < channelEnable.size(); ++channel) {
+        if(channelEnable[channel].get()) {
+            DWF(AnalogInStatusData(device, channel, tmpArr, maxNumSamples));
+            for(int idx = i, numRead = 0;
+                    numRead < numSamplesToRead;
+                    idx = (idx + 1) % maxNumSamples, numRead ++) {
+                data[channel].push_back(tmpArr[idx]);
+            }
+        }
+    }
+    return data;
+}
