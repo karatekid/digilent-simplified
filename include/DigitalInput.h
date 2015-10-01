@@ -17,12 +17,13 @@ class DigitalInput {
         void stop();
         //Sets inputStatus, & returns data if applicable
         std::vector<DigitalData> read();
+        //Information about DigitalInput
+        double getInternalClkFreq();
         //DigitalIn Configurations
-        DigitalInClockSource        clockSource;
         DigitalInDivider            divider;
         DigitalInBufferSize         bufferSize;
-        DigitalInSampleMode         sampleMode;
         DigitalInAcquisitionMode    acquisitionMode;
+
         DigitalInTriggerSource      triggerSource;
         DigitalInTriggerPosition    triggerPosition;
         DigitalInTriggerAutoTimeout triggerAutoTimeout;
@@ -36,7 +37,9 @@ class DigitalInput {
         //Updated after calling read
         InputStatusStruct inputStatus;
         //Configurations that we don't want exposed
+        DigitalInClockSource        clockSource;
         DigitalInSampleFormat       sampleFormat;
+        DigitalInSampleMode         sampleMode;
 };
 
 #endif
