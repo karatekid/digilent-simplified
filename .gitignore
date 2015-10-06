@@ -6,3 +6,4 @@ obj/
 logs/
 run
 run_test
+*.so*

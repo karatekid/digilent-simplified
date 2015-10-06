@@ -52,6 +52,10 @@ std::vector<DigitalData> DigitalInput::read() {
     PERFORM_READ_INTERNALS(DigitalIn, readDigitalDataFromItoJ);
 }
 
+double DigitalInput::getInternalClkFreq() {
+    return internalClkFreq;
+}
+
 std::vector<DigitalData> DigitalInput::readDigitalDataFromItoJ(int i, int j) {
     //Read to the furthest sample needed
     int maxNumSamples = getMaxIdxToReadTo(i, j, bufferSize.get());
