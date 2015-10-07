@@ -1,7 +1,7 @@
 #ifndef __ANALOG_INPUT_CONFIGURATIONS__H__
 #define __ANALOG_INPUT_CONFIGURATIONS__H__
 
-#include "helper.h"
+#include "Helper.h"
 #include "Configuration.h"
 
 DEF_CONFIG(        AnalogInFrequency,              double,   ContinuousRangeConfiguration);

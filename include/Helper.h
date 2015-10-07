@@ -30,7 +30,7 @@ void initializeLogging(int argc, char *argv[]);
     } while(0)
 
 //Error handling
-#include "dwf_exceptions.h"
+#include "Exceptions.h"
 #define HANDLE_DWF(fxn) \
     do {\
         if(!fxn) DWF_ERROR(fxn); \

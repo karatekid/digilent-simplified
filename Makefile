@@ -12,8 +12,8 @@ IDIR=include
 LDIR=lib
 ODIR=obj
 #Files
-SRC= helper.cpp \
-	 dwf_exceptions.cpp \
+SRC= Helper.cpp \
+	 Exceptions.cpp \
 	 Device.cpp \
 	 AnalogInput.cpp \
 	 DigitalInput.cpp \
@@ -21,8 +21,8 @@ SRC= helper.cpp \
 	 AnalogInputConfigurations.cpp
 _OBJ=$(SRC:.cpp=.o)
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
-_DEPS= helper.h \
-	   dwf_exceptions.h \
+_DEPS= Helper.h \
+	   Exceptions.h \
 	   Configuration.h \
 	   Device.h \
 	   AnalogInput.h \

@@ -1,6 +1,6 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 
- * File Name : dwf_exceptions.cpp
+ * File Name : Exceptions.cpp
 
  * Purpose : Define dwf exception classes
 
@@ -10,7 +10,7 @@
 
  _._._._._._._._._._._._._._._._._._._._._.*/
 
-#include "dwf_exceptions.h"
+#include "Exceptions.h"
 
 DwfException::DwfException(DWFERC errCode) {
     FDwfGetLastErrorMsg(errorMessage);

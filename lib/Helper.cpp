@@ -1,6 +1,6 @@
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 
- * File Name : helper.cpp
+ * File Name : Helper.cpp
 
  * Purpose : Helper and utilities
 
@@ -10,7 +10,7 @@
 
  _._._._._._._._._._._._._._._._._._._._._.*/
 
-#include "helper.h"
+#include "Helper.h"
 
 //Helper Functions
 bool isEquivalent(double a, double b) {

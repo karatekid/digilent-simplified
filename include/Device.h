@@ -1,7 +1,7 @@
 #ifndef __DEVICE__H__
 #define __DEVICE__H__
 
-#include "helper.h"
+#include "Helper.h"
 #include "Configuration.h"
 #include "AnalogInput.h"
 #include "DigitalInput.h"

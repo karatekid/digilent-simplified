@@ -1,7 +1,7 @@
 #ifndef __DIGITAL_INPUT_CONFIGURATIONS__H__
 #define __DIGITAL_INPUT_CONFIGURATIONS__H__
 
-#include "helper.h"
+#include "Helper.h"
 #include "Configuration.h"
 
 //Data format is 16 bits by default

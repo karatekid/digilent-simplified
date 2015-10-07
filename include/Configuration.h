@@ -7,7 +7,7 @@
 
 #include<digilent/waveforms/dwf.h> 
 
-#include "helper.h"
+#include "Helper.h"
 
 template<typename T>
 class Configuration {
