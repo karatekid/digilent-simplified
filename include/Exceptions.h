@@ -7,6 +7,7 @@
 
 #include "easylogging++.h"
 
+namespace dwf{
 class DwfException : public std::exception {
     public:
         explicit DwfException(DWFERC errCode);
@@ -58,4 +59,5 @@ class DataMissedDuringStreamException : public std::exception {
         return "Data was lost during scanScreen Acquisition";
     }
 };
+}
 #endif

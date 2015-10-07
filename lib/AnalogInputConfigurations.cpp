@@ -12,6 +12,7 @@
 
 #include "AnalogInputConfigurations.h"
 
+namespace dwf{
 IMPL_CR_CONFIG_ALL(AnalogInFrequency, double);
 IMPL_CR_CONFIG_ALL(AnalogInBufferSize, int);
 IMPL_SET_CONFIG_ALL(AnalogInAcquisitionMode, ACQMODE);
@@ -41,3 +42,4 @@ IMPL_DR_CONFIG_ALL(        AnalogInTriggerLevel,           double);
 IMPL_DR_CONFIG_ALL(        AnalogInTriggerHysteresis,      double);
 IMPL_SET_CONFIG_ALL(       AnalogInTriggerLengthCondition, TRIGLEN);
 IMPL_DR_CONFIG_ALL(        AnalogInTriggerLength,          double);
+}

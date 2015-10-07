@@ -3,20 +3,22 @@
 
 #include<algorithm>
 #include<cmath>
+#include<digilent/waveforms/dwf.h> 
+
+#include "easylogging++.h"
+#include "Exceptions.h"
 //Helper Functions
 
 #define DBL_CLOSE_ENOUGH 0.0001
 bool isEquivalent(double a, double b);
 
 //Logging
-#include "easylogging++.h"
 #define LOGGING_CONFIG "configs/general.conf"
 #define LOGGING_LVL_CONFIG "configs/level.conf"
 void initializeLogging(int argc, char *argv[]);
 
-//DWF Calls
-#include<digilent/waveforms/dwf.h> 
 
+//DWF Calls
 //Prepend with FDwf and wrap
 #define DWF(fxn) \
     WRAP_DWF(FDwf ## fxn)
@@ -30,7 +32,6 @@ void initializeLogging(int argc, char *argv[]);
     } while(0)
 
 //Error handling
-#include "Exceptions.h"
 #define HANDLE_DWF(fxn) \
     do {\
         if(!fxn) DWF_ERROR(fxn); \
@@ -76,7 +77,7 @@ struct InputStatusStruct {
             endIndex = inputStatus.indexWrite % bufferSize.get(); \
             break; \
         default: \
-            throw AcquisitionModeNotImplementedException(); \
+            throw dwf::AcquisitionModeNotImplementedException(); \
             break; \
     } \
     return READ_FXN(beginIndex, endIndex)

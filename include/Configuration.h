@@ -9,6 +9,7 @@
 
 #include "Helper.h"
 
+namespace dwf{
 template<typename T>
 class Configuration {
     public:
@@ -178,5 +179,6 @@ class BitSetConfiguration : public Configuration<T> {
         T bitmask;
 
 };
+}
 
 #endif

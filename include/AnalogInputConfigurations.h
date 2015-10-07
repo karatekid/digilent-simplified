@@ -4,6 +4,7 @@
 #include "Helper.h"
 #include "Configuration.h"
 
+namespace dwf{
 DEF_CONFIG(        AnalogInFrequency,              double,   ContinuousRangeConfiguration);
 DEF_CONFIG(        AnalogInBufferSize,             int,      ContinuousRangeConfiguration);
 DEF_CONFIG(        AnalogInAcquisitionMode,        ACQMODE,  SetConfiguration);
@@ -23,6 +24,7 @@ DEF_CONFIG(        AnalogInTriggerLevel,           double,   DiscreteRangeConfig
 DEF_CONFIG(        AnalogInTriggerHysteresis,      double,   DiscreteRangeConfiguration);
 DEF_CONFIG(        AnalogInTriggerLengthCondition, TRIGLEN,  SetConfiguration);
 DEF_CONFIG(        AnalogInTriggerLength,          double,   DiscreteRangeConfiguration);
+}
 
 
 

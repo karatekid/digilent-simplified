@@ -8,6 +8,7 @@
 #define DIGITAL_DATA_SIZE 16
 #define DIGITAL_NUM_BYTES_IN_SAMPLE (DIGITAL_DATA_SIZE / 8)
 
+namespace dwf{
 DEF_CONFIG(DigitalInClockSource, DwfDigitalInClockSource, SetConfiguration);
 DEF_CONFIG(DigitalInDivider, unsigned int, ContinuousRangeConfiguration);
 DEF_CONFIG(DigitalInSampleFormat, int, SetConfiguration);
@@ -21,6 +22,7 @@ struct DigitalInTriggerStruct {
     unsigned int levelLow, levelHigh, edgeRise, edgeFall;
 };
 DEF_CONFIG(DigitalInTrigger, DigitalInTriggerStruct, BitSetConfiguration);
+}
 
 
 #endif

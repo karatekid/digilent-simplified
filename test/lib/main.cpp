@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     initializeLogging(argc, argv);
 
     CLOG(DEBUG, "main") << "Beginning Testing";
-    Device dev;
+    dwf::Device dev;
     CLOG(INFO, "main") << "DIN divider: " << dev.digitalIn.divider.getRange().toString();
     CLOG(INFO, "main") << "DIN bufSize: " << dev.digitalIn.bufferSize.getRange().toString();
     CLOG(INFO, "main") << "DIN acqMode: " << dev.digitalIn.acquisitionMode.optionsAsString();
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     dev.digitalIn.bufferSize.set(2048);
     dev.digitalIn.acquisitionMode.set(acqmodeScanShift);
     dev.digitalIn.start();
-    std::vector<DigitalData> tmpData;
+    std::vector<dwf::DigitalData> tmpData;
     for(;;) {
         tmpData = dev.digitalIn.read();
         std::cout << "new_read\n";

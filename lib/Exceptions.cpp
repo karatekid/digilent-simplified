@@ -12,6 +12,7 @@
 
 #include "Exceptions.h"
 
+namespace dwf{
 DwfException::DwfException(DWFERC errCode) {
     FDwfGetLastErrorMsg(errorMessage);
 }
@@ -43,4 +44,5 @@ void throwDwfException(DWFERC errCode) {
         default:
             throw "Not a valid error code";
     }
+}
 }

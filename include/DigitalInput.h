@@ -6,6 +6,7 @@
 
 #include "DigitalInputConfigurations.h"
 
+namespace dwf{
 typedef std::bitset<DIGITAL_DATA_SIZE> DigitalData;
 
 class DigitalInput {
@@ -41,5 +42,6 @@ class DigitalInput {
         DigitalInSampleFormat       sampleFormat;
         DigitalInSampleMode         sampleMode;
 };
+}
 
 #endif

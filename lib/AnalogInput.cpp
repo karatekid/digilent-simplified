@@ -12,6 +12,7 @@
 
 #include "AnalogInput.h"
 
+namespace dwf{
 AnalogInput::AnalogInput(HDWF d) 
 : device(d) {
     DWF(AnalogInBitsInfo(device, &bitResolution));
@@ -73,4 +74,5 @@ std::map<int, std::vector<double>> AnalogInput::readAnalogDataFromItoJ(int i, in
         }
     }
     return data;
+}
 }

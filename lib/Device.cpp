@@ -12,6 +12,7 @@
 
 #include "Device.h"
 
+namespace dwf{
 Device::Device() {
     char s[32];
     DWF(GetVersion(s));
@@ -64,3 +65,4 @@ DeviceAutoConfigure::DeviceAutoConfigure(HDWF d) : SetConfiguration<BOOL>(d) {
 IMPL_CONFIG_GETNSET(DeviceAutoConfigure, BOOL);
 
 IMPL_SET_CONFIG_ALL_W_INDEX(DeviceTrigger, TRIGSRC);
+}

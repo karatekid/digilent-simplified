@@ -6,6 +6,7 @@
 
 #include "AnalogInputConfigurations.h"
 
+namespace dwf{
 class AnalogInput {
     public: 
         AnalogInput() {}
@@ -45,5 +46,6 @@ class AnalogInput {
         InputStatusStruct inputStatus;
         std::map<int, std::vector<double>> readAnalogDataFromItoJ(int i, int j);
 };
+}
 
 #endif

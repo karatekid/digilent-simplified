@@ -12,6 +12,7 @@
 
 #include "DigitalInput.h"
 
+namespace dwf{
 DigitalInput::DigitalInput(HDWF d)
 : device(d) {
     DWF(DigitalInInternalClockInfo(device, &internalClkFreq));
@@ -74,4 +75,5 @@ std::vector<DigitalData> DigitalInput::readDigitalDataFromItoJ(int i, int j) {
         data.push_back(DigitalData(tmpArr[idx]));
     }
     return data;
+}
 }

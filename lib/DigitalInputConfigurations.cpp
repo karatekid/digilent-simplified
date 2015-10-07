@@ -12,6 +12,7 @@
 
 #include "DigitalInputConfigurations.h"
 
+namespace dwf{
 IMPL_SET_CONFIG_ALL(DigitalInClockSource, DwfDigitalInClockSource);
 
 DigitalInDivider::DigitalInDivider(HDWF d)
@@ -74,4 +75,5 @@ DigitalInTriggerStruct DigitalInTrigger::getImpl() {
                 &(val.edgeRise),
                 &(val.edgeFall)));
     return val;
+}
 }

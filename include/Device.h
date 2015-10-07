@@ -6,6 +6,7 @@
 #include "AnalogInput.h"
 #include "DigitalInput.h"
 
+namespace dwf{
 DEF_CONFIG(DeviceAutoConfigure, BOOL, SetConfiguration);
 DEF_CONFIG_W_INDEX(DeviceTrigger, TRIGSRC, SetConfiguration);
 
@@ -24,5 +25,6 @@ class Device {
         HDWF device;
         const int numTriggerPins = 16;
 };
+}
 
 #endif
