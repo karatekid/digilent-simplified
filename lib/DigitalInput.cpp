@@ -15,6 +15,15 @@
 namespace dwf{
 DigitalInput::DigitalInput(HDWF d)
 : device(d) {
+    setDefaults();
+}
+
+void DigitalInput::reset() {
+    DWF(DigitalInReset(device));
+    setDefaults();
+}
+
+void DigitalInput::setDefaults() {
     DWF(DigitalInInternalClockInfo(device, &internalClkFreq));
     DWF(DigitalInBitsInfo(device, &numBits));
     //Set inputStatus to defaults
@@ -23,22 +32,25 @@ DigitalInput::DigitalInput(HDWF d)
         inputStatus.samplesValid =
         inputStatus.indexWrite = 0;
     //Set sampleFormat to default
-    sampleFormat = DigitalInSampleFormat(d);
+    sampleFormat = DigitalInSampleFormat(device);
     sampleFormat.set(DIGITAL_DATA_SIZE);
+    //Set sampleMode to default
+    sampleMode = DigitalInSampleMode(device);
+    sampleMode.set(DwfDigitalInSampleModeSimple);
+    //Set clockSource to default
+    clockSource = DigitalInClockSource(device);
+    //TODO: there are no clockSources available
+    //clockSource.set(DwfDigitalInClockSourceInternal);
 
-    clockSource = DigitalInClockSource(d);
-    divider = DigitalInDivider(d);
-    bufferSize = DigitalInBufferSize(d);
-    sampleMode = DigitalInSampleMode(d);
-    acquisitionMode = DigitalInAcquisitionMode(d);
-    triggerSource = DigitalInTriggerSource(d);
-    triggerPosition = DigitalInTriggerPosition(d);
-    triggerAutoTimeout = DigitalInTriggerAutoTimeout(d);
-    trigger = DigitalInTrigger(d);
-}
-
-void DigitalInput::reset() {
-    DWF(DigitalInReset(device));
+    //Generic public configurations
+    divider = DigitalInDivider(device);
+    bufferSize = DigitalInBufferSize(device);
+    sampleMode = DigitalInSampleMode(device);
+    acquisitionMode = DigitalInAcquisitionMode(device);
+    triggerSource = DigitalInTriggerSource(device);
+    triggerPosition = DigitalInTriggerPosition(device);
+    triggerAutoTimeout = DigitalInTriggerAutoTimeout(device);
+    trigger = DigitalInTrigger(device);
 }
 
 void DigitalInput::start() {

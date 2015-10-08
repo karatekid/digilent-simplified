@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     //CLOG(INFO, "main") << "DIN TRIGGER: " << dev.digitalIn.trigger.optionsAsString();
     dev.digitalIn.reset();
     dev.digitalIn.divider.set(1);
-    dev.digitalIn.bufferSize.set(2048);
+    dev.digitalIn.bufferSize.set(4096);
     dev.digitalIn.acquisitionMode.set(acqmodeScanShift);
     dev.digitalIn.start();
     std::vector<dwf::DigitalData> tmpData;

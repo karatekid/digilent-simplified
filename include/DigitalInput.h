@@ -35,12 +35,13 @@ class DigitalInput {
         int numBits;
         //Private function calls
         std::vector<DigitalData> readDigitalDataFromItoJ(int i, int j);
+        void setDefaults();
         //Updated after calling read
         InputStatusStruct inputStatus;
         //Configurations that we don't want exposed
-        DigitalInClockSource        clockSource;
         DigitalInSampleFormat       sampleFormat;
         DigitalInSampleMode         sampleMode;
+        DigitalInClockSource        clockSource;
 };
 }
 
