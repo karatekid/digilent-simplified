@@ -16,6 +16,7 @@ class DigitalInput {
         void reset();
         void start();
         void stop();
+        void configure();
         //Sets inputStatus, & returns data if applicable
         std::vector<DigitalData> read();
         //Information about DigitalInput

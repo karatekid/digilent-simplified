@@ -45,11 +45,17 @@ void AnalogInput::reset() {
 }
 
 void AnalogInput::start() {
+    // Configure & start
     DWF(AnalogInConfigure(device, true, true));
 }
 
 void AnalogInput::stop() {
     DWF(AnalogInConfigure(device, false, false));
+}
+
+void AnalogInput::configure() {
+    // Configure w/o starting
+    DWF(AnalogInConfigure(device, true, false));
 }
 
 std::map<int, std::vector<double>> AnalogInput::read() {

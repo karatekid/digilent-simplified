@@ -54,11 +54,17 @@ void DigitalInput::setDefaults() {
 }
 
 void DigitalInput::start() {
+    // Configure & start
     DWF(DigitalInConfigure(device, true, true));
 }
 
 void DigitalInput::stop() {
     DWF(DigitalInConfigure(device, false, false));
+}
+
+void DigitalInput::configure() {
+    // Configure w/o starting
+    DWF(DigitalInConfigure(device, true, false));
 }
 
 std::vector<DigitalData> DigitalInput::read() {

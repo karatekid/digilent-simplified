@@ -14,6 +14,7 @@ class AnalogInput {
         void reset();
         void start();
         void stop();
+        void configure();
         std::map<int, std::vector<double>> read();
         /*
         void status();
