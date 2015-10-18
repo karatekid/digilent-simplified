@@ -2,6 +2,7 @@
 #define __HELPER__H__
 
 #include<algorithm>
+#include<iostream>
 #include<cmath>
 #include<digilent/waveforms/dwf.h> 
 

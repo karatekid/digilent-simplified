@@ -20,7 +20,18 @@ DEF_CONFIG(DigitalInTriggerPosition, unsigned int, ContinuousRangeConfiguration)
 DEF_CONFIG(DigitalInTriggerAutoTimeout, double, DiscreteRangeConfiguration);
 struct DigitalInTriggerStruct {
     unsigned int levelLow, levelHigh, edgeRise, edgeFall;
+    bool operator==(const DigitalInTriggerStruct& other) {
+        return (
+                (this->levelLow  == other.levelLow) &&
+                (this->levelHigh == other.levelHigh) &&
+                (this->edgeRise  == other.edgeRise) &&
+                (this->edgeFall  == other.edgeFall));
+    }
+    bool operator!=(const DigitalInTriggerStruct& other) {
+        return !(*this == other);
+    }
 };
+
 DEF_CONFIG(DigitalInTrigger, DigitalInTriggerStruct, BitSetConfiguration);
 }
 

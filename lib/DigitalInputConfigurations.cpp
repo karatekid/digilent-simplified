@@ -76,4 +76,11 @@ DigitalInTriggerStruct DigitalInTrigger::getImpl() {
                 &(val.edgeFall)));
     return val;
 }
+std::ostream& operator<<(std::ostream& os, const DigitalInTriggerStruct& obj) {
+        os <<  "LL: " << obj.levelLow << "\n"
+            << "LH: " << obj.levelHigh << "\n"
+            << "ER: " << obj.edgeRise << "\n"
+            << "EF: " << obj.edgeFall;
+        return os;
+}
 }
